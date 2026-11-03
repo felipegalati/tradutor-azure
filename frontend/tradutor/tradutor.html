@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tradutor em Tempo Real</title>
+    <link rel="stylesheet" href="tradutor.css">
+</head>
+<body>
+
+    <main class="translator-card">
+        <div class="top-nav">
+            <a href="../index.html" class="btn-voltar">← Voltar ao Início</a>
+        </div>
+
+        <h2>Tradutor Automático</h2>
+
+        <div class="language-bar">
+            <div class="select-wrapper">
+                <label for="fromLang">De:</label>
+                <select id="fromLang">
+                    <option value="en">Inglês</option>
+                    <option value="pt" selected>Português</option>
+                    <option value="es">Espanhol</option>
+                </select>
+            </div>
+
+            <button id="btnInverter" class="btn-inverter" title="Inverter idiomas">⇄</button>
+
+            <div class="select-wrapper">
+                <label for="toLang">Para:</label>
+                <select id="toLang">
+                    <option value="pt">Português</option>
+                    <option value="en" selected>Inglês</option>
+                    <option value="es">Espanhol</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="translator-grid">
+            <div class="translator-pane">
+                <textarea id="texto" placeholder="Comece a digitar aqui..."></textarea>
+            </div>
+
+            <div class="translator-pane">
+                <pre id="resultado">Aguardando texto...</pre>
+            </div>
+        </div>
+
+        <div id="status" class="status">Pronto para traduzir</div>
+    </main>
+
+    <script src="tradutor.js"></script>
+</body>
+</html>
