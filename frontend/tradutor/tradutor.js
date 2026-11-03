@@ -1,3 +1,5 @@
+const API_URL = 'http://localhost:3000/api/traduzir';
+
 let timeoutId = null;
 let controller = null;
 
@@ -58,7 +60,7 @@ async function realizarTraducao(text) {
     statusDiv.innerText = "Traduzindo...";
 
     try {
-        const response = await fetch('http://localhost:3000/traduzir', {
+        const response = await fetch(API_URL, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detector de Objetos</title>
+    <link rel="stylesheet" href="visao.css">
+</head>
+<body>
+
+    <main class="card">
+        <div class="top-nav">
+            <a href="../index.html" class="btn-voltar">← Voltar ao Início</a>
+        </div>
+
+        <h2>Detector de Imagens</h2>
+
+        <div class="grid">
+            <div class="pane">
+                <label class="dropzone" id="dropzone" for="arquivo">
+                    <img id="preview" alt="Pré-visualização" hidden>
+                    <span id="dropTexto">Clique, arraste ou cole (Ctrl+V) uma imagem aqui</span>
+                </label>
+                <input type="file" id="arquivo" accept="image/*" hidden>
+                <div class="botoes">
+                    <button id="btnAnalisar" class="btn-analisar" disabled>Analisar imagem</button>
+                    <button id="btnResetar" class="btn-resetar" disabled>↺ Nova imagem</button>
+                </div>
+            </div>
+
+            <div class="pane">
+                <div id="resumo" class="resumo">Aguardando imagem...</div>
+                <div id="descricao" class="descricao" hidden></div>
+                <div id="ranking" class="ranking"></div>
+                <div id="outras" class="outras"></div>
+            </div>
+        </div>
+
+        <div id="status" class="status">Pronto para analisar</div>
+    </main>
+
+    <script src="visao.js"></script>
+</body>
+</html>
