@@ -1,37 +1,58 @@
-
 require("dotenv").config();
+const express = require('express');
+const cors = require('cors');
 const axios = require('axios').default;
 const { v4: uuidv4 } = require('uuid');
 
+const app = express();
+app.use(express.json());
+app.use(cors());
+
 let key = process.env.API_KEY;
 let endpoint = "https://api.cognitive.microsofttranslator.com";
-
-// location, also known as region.
-// required if you're using a multi-service or regional (not global) resource. It can be found in the Azure portal on the Keys and Endpoint page.
 let location = process.env.LOCATION;
 
-let params = new URLSearchParams();
-params.append("api-version", "3.0");
-params.append("from", "en");
-params.append("to", "sw");
-params.append("to", "it");
+app.post('/traduzir', async (req, res) => {
+    const { text, from, to } = req.body;
 
-axios({
-    baseURL: endpoint,
-    url: '/translate',
-    method: 'post',
-    headers: {
-        'Ocp-Apim-Subscription-Key': key,
-         // location required if you're using a multi-service or regional (not global) resource.
-        'Ocp-Apim-Subscription-Region': location,
-        'Content-type': 'application/json',
-        'X-ClientTraceId': uuidv4().toString()
-    },
-    params: params,
-    data: [{
-        'text': 'Hello, friend! What did you do today?'
-    }],
-    responseType: 'json'
-}).then(function(response){
-    console.log(JSON.stringify(response.data, null, 4));
-})
+    if (!text || text.trim() === "") {
+        return res.json([]); // Retorna vazio se o texto estiver em branco
+    }
+
+    let params = new URLSearchParams();
+    params.append("api-version", "3.0");
+    params.append("from", from || "en");
+    
+    if (Array.isArray(to)) {
+        to.forEach(lang => params.append("to", lang));
+    } else {
+        params.append("to", to || "pt");
+    }
+
+    try {
+        const response = await axios({
+            baseURL: endpoint,
+            url: '/translate',
+            method: 'post',
+            headers: {
+                'Ocp-Apim-Subscription-Key': key,
+                'Ocp-Apim-Subscription-Region': location,
+                'Content-type': 'application/json',
+                'X-ClientTraceId': uuidv4().toString()
+            },
+            params: params,
+            data: [{ 'text': text }],
+            responseType: 'json'
+        });
+
+        res.json(response.data);
+    } catch (error) {
+        console.error(error.response ? error.response.data : error.message);
+        res.status(500).json({ error: "Erro ao comunicar com a API de tradução." });
+    }
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Servidor rodando na porta ${PORT}`);
+});
